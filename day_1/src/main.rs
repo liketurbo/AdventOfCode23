@@ -43,7 +43,7 @@ fn replace_first_match(word: &str, words: &[String; 10]) -> String {
 }
 
 fn main() {
-    let input = std::fs::read_to_string("input-1.txt").unwrap();
+    let input = std::fs::read_to_string("day_1/input-1.txt").unwrap();
     let sum: i32 = input
         .lines()
         .map(|line| {
