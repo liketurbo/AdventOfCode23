@@ -62,18 +62,34 @@ fn main() {
         })
         .collect();
 
-    let passed_games = games.iter().filter(|g| {
-        let pass = g
-            .sets
-            .iter()
-            .all(|s| s.0 <= MAX_RED && s.1 <= MAX_GREEN && s.2 <= MAX_BLUE);
-        pass
-    });
+    let sum_of_games: i32 = games
+        .iter()
+        .filter(|g| {
+            let pass = g
+                .sets
+                .iter()
+                .all(|s| s.0 <= MAX_RED && s.1 <= MAX_GREEN && s.2 <= MAX_BLUE);
+            pass
+        })
+        .map(|g| g.id)
+        .sum();
 
-    println!(
-        "Sum of those games: {}",
-        passed_games.map(|g| g.id).sum::<i32>()
-    );
+    println!("Sum of those games: {}", sum_of_games);
+
+    use std::cmp::max;
+
+    let sum_of_powers: i32 = games
+        .iter()
+        .map(|g| {
+            let min_amount = g.sets.iter().fold((0, 0, 0), |acc, x| {
+                (max(acc.0, x.0), max(acc.1, x.1), max(acc.2, x.2))
+            });
+            min_amount
+        })
+        .map(|m| m.0 * m.1 * m.2)
+        .sum();
+
+    println!("Sum of powers: {}", sum_of_powers);
 }
 
 #[derive(Debug)]
